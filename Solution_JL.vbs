@@ -13,10 +13,9 @@ Dim openPrice As Double
 
 
 For Each ws In Worksheets
-    totalVolumn=0
     summaryRow=2
     lastRowTicker=1
-
+    totalVolumn=0
     ws.Cells(1,9).Value="Ticker"
     ws.Cells(1,10).Value="Yearly Change"
     ws.Cells(1,11).Value="Percentage Change"
@@ -24,14 +23,12 @@ For Each ws In Worksheets
     lastRow=ws.Cells(Rows.Count,1).End(xlUp).Row
 
     For i=2 to lastRow
-        ' If ws.Cells(i+1,1).Value=ws.Cells(i,1).Value Then
-        '     lastRowTicker=lastRowTicker+1
-        ' End If
+       If ws.Cells(i+1,1).Value=ws.Cells(i,1).Value Then
+        lastRowTicker=lastRowTicker+1
+        End If
 
         If ws.Cells(i+1,1).Value<>ws.Cells(i,1).Value Then
                 ticker=ws.Cells(i,1).Value
-                lastRowTicker=WorksheetFunction.CountIf(("A2:A" & lastRow),ticker)
-                
                 openPrice=ws.Cells(i-lastRowTicker+1,3).Value
                 closePrice=ws.Cells(i,6).Value
                 yearlyChange=closePrice-openPrice
@@ -49,7 +46,11 @@ For Each ws In Worksheets
                         ws.Cells(summaryRow,11).Interior.ColorIndex=3
                     End If
                 summaryRow=summaryRow+1
+                lastRowTicker=1
+                
         End If
+        totalVolumn=0
+
     Next i
 Next ws
 
